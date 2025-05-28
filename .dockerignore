@@ -1,0 +1,23 @@
+# Ignore Node.js modules, as they will be installed inside the container
+node_modules
+
+# Ignore npm debug logs
+npm-debug.log*
+
+# Ignore OS-specific files
+.DS_Store
+Thumbs.db
+
+# Ignore environment files - these should be passed at runtime, not built into the image
+.env
+*.env
+.env.*
+!.env.example # Optional: keep .env.example if you want it in the image context for reference
+
+# Ignore Docker files themselves if they are in the build context
+Dockerfile
+.dockerignore
+
+# Ignore Git directory
+.git
+.gitignore
