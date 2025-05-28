@@ -1,0 +1,47 @@
+# k8s/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todo-app-deployment
+  namespace: todo-app
+  labels:
+    app: todo-app
+spec:
+  replicas: 2 # Adjust as needed
+  selector:
+    matchLabels:
+      app: todo-app
+  template:
+    metadata:
+      labels:
+        app: todo-app
+    spec:
+      containers:
+      - name: todo-app
+        image: your-dockerhub-username/todo-app:latest # REPLACE with your actual image name and tag
+        ports:
+        - containerPort: 3000 # Must match APP_PORT in ConfigMap
+        envFrom:
+        - configMapRef:
+            name: todo-app-config
+        - secretRef:
+            name: todo-app-secret
+        resources:
+          limits:
+            memory: "256Mi"
+            cpu: "500m"
+          requests:
+            memory: "128Mi"
+            cpu: "250m"
+        livenessProbe:
+          httpGet:
+            path: / # Assuming your app has a root path that returns 200 OK
+            port: 3000
+          initialDelaySeconds: 15
+          periodSeconds: 20
+        readinessProbe:
+          httpGet:
+            path: / # Assuming your app has a root path that returns 200 OK
+            port: 3000
+          initialDelaySeconds: 5
+          periodSeconds: 10
