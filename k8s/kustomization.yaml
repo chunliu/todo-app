@@ -39,6 +39,7 @@ commonLabels:
 
 # You can also manage image tags, replicas, etc., across your resources.
 # Example for image tags (uncomment and adjust if needed):
-# images:
-#  - name: your-dockerhub-username/todo-app # Corresponds to the image in deployment.yaml
-#    newTag: "v1.1.0" # Specify the new tag you want to deploy
+images:
+  - name: your-dockerhub-username/todo-app # This is the image name used in deployment.yaml
+    newName: your-dockerhub-username/todo-app # Placeholder: Will be replaced by CI/CD
+    newTag: latest # Placeholder: Will be replaced by CI/CD
