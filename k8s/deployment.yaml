@@ -33,4 +33,15 @@ spec:
           requests:
             memory: "128Mi"
             cpu: "250m"
-            
+        livenessProbe:
+          httpGet:
+            path: / # Assuming your app has a root path that returns 200 OK
+            port: 3000
+          initialDelaySeconds: 15
+          periodSeconds: 20
+        readinessProbe:
+          httpGet:
+            path: / # Assuming your app has a root path that returns 200 OK
+            port: 3000
+          initialDelaySeconds: 5
+          periodSeconds: 10
