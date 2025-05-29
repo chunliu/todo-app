@@ -14,8 +14,8 @@ spec:
   #   - todo.yourdomain.com
   #   secretName: todo-app-tls-secret # Secret containing your TLS cert and key
   rules:
-  - host: todo.yourdomain.com # REPLACE with your desired hostname
-    http:
+  # - host: todo.yourdomain.com # REPLACE with your desired hostname
+  - http:
       paths:
       - path: /
         pathType: Prefix
