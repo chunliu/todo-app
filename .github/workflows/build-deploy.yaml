@@ -35,7 +35,7 @@ jobs:
         setup-tools: |
           kustomize
           kubectl
-        kubectl: '1.32.3'
+        kubectl: '1.32.5'
         kustomize: 'v5.6.0'
     - name: Setup ~/.kube/config
       run: |
