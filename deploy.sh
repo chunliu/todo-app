@@ -9,6 +9,12 @@ echo "DB_HOST=${DB_HOST}" >> k8s/configs.env
 echo "DB_NAME=${DB_NAME}" >> k8s/configs.env
 echo "DB_PORT=${DB_PORT}" >> k8s/configs.env
 
+ORIGINAL_IMAGE_NAME_IN_KUSTOMIZATION="your-dockerhub-username/todo-app"
+echo "Updating image in kustomization.yaml to: ${IMAGE_NAME}:${IMAGE_TAG}"
+cd k8s/
+kustomize edit set image "${ORIGINAL_IMAGE_NAME_IN_KUSTOMIZATION}=${IMAGE_NAME}:${IMAGE_TAG}"
+cd ..
+
 echo "Applying Kustomize configurations..."
 kubectl apply -k k8s/
 
