@@ -14,8 +14,9 @@ labels:
   pairs:
     environment: blue
     version: blue
-    
+
 # Patches for the blue deployment
 patches:
 - path: deployment-patch.yaml
 - path: service-patch.yaml
+- path: ingress-canary-patch.yaml
