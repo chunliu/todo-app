@@ -4,17 +4,21 @@ kind: Kustomization
 
 # Inherit from the base configuration
 resources:
-  - ../../base
+- ../../base
 
 namePrefix: green-
 
-# Patches for the green deployment
-patchesStrategicMerge:
-  - deployment-patch.yaml
-  - service-patch.yaml
-  - ingress-canary-patch.yaml
-
 # Common labels for all resources in this overlay
-commonLabels:
-  environment: green
-  version: green
+labels:
+- includeSelectors: true
+  pairs:
+    environment: green
+    version: green
+
+# Patches for the green deployment
+patches:
+- path: deployment-patch.yaml
+- path: service-patch.yaml
+- path: ingress-canary-patch.yaml
+- path: ingress-patch.yaml
+- path: namespace-patch.yaml

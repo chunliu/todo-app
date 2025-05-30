@@ -2,8 +2,10 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: todo-app-deployment # This name will be prefixed with 'blue-' by kustomization
-  # No namespace here, it's inherited from the base or kustomization.yaml in the overlay
+  name: todo-app-deployment
+  namespace: todo-app
+  labels:
+    app: todo-app
 spec:
   replicas: 1 # Example: Blue might have a different replica count
   selector:

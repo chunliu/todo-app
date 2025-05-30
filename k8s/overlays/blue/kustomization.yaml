@@ -4,16 +4,18 @@ kind: Kustomization
 
 # Inherit from the base configuration
 resources:
-  - ../../base
+- ../../base
 
 namePrefix: blue-
 
-# Patches for the blue deployment
-patchesStrategicMerge:
-  - deployment-patch.yaml
-  - service-patch.yaml
-
 # Common labels for all resources in this overlay
-commonLabels:
-  environment: blue
-  version: blue
+labels:
+- includeSelectors: true
+  pairs:
+    environment: blue
+    version: blue
+    
+# Patches for the blue deployment
+patches:
+- path: deployment-patch.yaml
+- path: service-patch.yaml

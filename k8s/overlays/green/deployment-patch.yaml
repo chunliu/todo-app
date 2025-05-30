@@ -2,7 +2,10 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: todo-app # This name will be prefixed with 'green-' by kustomization
+  name: todo-app-deployment
+  namespace: todo-app
+  labels:
+    app: todo-app
 spec:
   replicas: 1 # Example: Green might have a different replica count
   selector:
