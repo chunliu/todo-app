@@ -6,5 +6,5 @@ metadata:
 spec:
   selector:
     # These labels must match the labels on the Pods created by the 'green-todo-app' Deployment.
-    app.kubernetes.io/instance: todo-app-instance
+    app: todo-app
     environment: green # This label is added by the green overlay's kustomization.yaml

@@ -10,5 +10,5 @@ spec:
     # So, if base deployment has app.kubernetes.io/instance: todo-app-instance
     # and blue overlay has commonLabels: {environment: blue, version: blue}
     # the selector here should reflect that the pods will have these combined labels.
-    app.kubernetes.io/instance: todo-app-instance
+    app: todo-app
     environment: blue # This label is added by the blue overlay's kustomization.yaml

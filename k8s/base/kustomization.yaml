@@ -7,32 +7,34 @@ kind: Kustomization
 namespace: todo-app
 
 resources:
-  - namespace.yaml
-  - deployment.yaml
-  - service.yaml
-  - ingress.yaml
-  - ingress-canary.yaml
+- namespace.yaml
+- deployment.yaml
+- service.yaml
+- ingress.yaml
+- ingress-canary.yaml
 
 secretGenerator:
-  - name: todo-app-secret
-    envs:
-      - secrets.env
+- envs:
+  - secrets.env
+  name: todo-app-secret
 
 configMapGenerator:
-  - name: todo-app-config
-    envs:
-      - configs.env
+- envs:
+  - configs.env
+  name: todo-app-config
 
 # Common labels for base resources. These can be augmented by overlays.
-commonLabels:
-  app.kubernetes.io/name: todo-app
-  app.kubernetes.io/instance: todo-app-instance # This is used by service selectors
-  app.kubernetes.io/component: application
-  app.kubernetes.io/part-of: todo-application
-  app.kubernetes.io/managed-by: kustomize
 
 # Base image configuration. Overlays or CI/CD can change this.
 images:
-  - name: your-dockerhub-username/todo-app # Default image name in deployment.yaml
-    newName: your-dockerhub-username/todo-app # Can be overridden
-    newTag: base # Default tag for base, can be overridden
+- name: your-dockerhub-username/todo-app
+  newName: your-dockerhub-username/todo-app
+  newTag: base
+labels:
+- includeSelectors: true
+  pairs:
+    app.kubernetes.io/component: application
+    app.kubernetes.io/instance: todo-app-instance
+    app.kubernetes.io/managed-by: kustomize
+    app.kubernetes.io/name: todo-app
+    app.kubernetes.io/part-of: todo-application

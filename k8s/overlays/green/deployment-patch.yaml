@@ -7,12 +7,12 @@ spec:
   replicas: 1 # Example: Green might have a different replica count
   selector:
     matchLabels:
-      app.kubernetes.io/instance: todo-app-instance # Ensure this matches the base
+      app: todo-app # Ensure this matches the base
       # Kustomize will add 'environment: green' and 'version: green' here
   template:
     metadata:
       labels:
-        app.kubernetes.io/instance: todo-app-instance # Ensure this matches the base
+        app: todo-app # Ensure this matches the base
         # Kustomize will add 'environment: green' and 'version: green' here
     spec:
       containers:
