@@ -66,5 +66,5 @@ jspm_packages/
 .vscode/
 
 # Kustomize environment files
-k8s/secrets.env
-k8s/configs.env
+k8s/base/secrets.env
+k8s/base/configs.env

@@ -1,0 +1,10 @@
+# k8s/overlays/green/service-patch.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: todo-app # This name will be prefixed with 'green-' by kustomization
+spec:
+  selector:
+    # These labels must match the labels on the Pods created by the 'green-todo-app' Deployment.
+    app.kubernetes.io/instance: todo-app-instance
+    environment: green # This label is added by the green overlay's kustomization.yaml

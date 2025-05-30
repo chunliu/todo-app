@@ -1,0 +1,19 @@
+# k8s/overlays/green/kustomization.yaml
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+# Inherit from the base configuration
+resources:
+  - ../../base
+
+namePrefix: green-
+
+# Patches for the green deployment
+patchesStrategicMerge:
+  - deployment-patch.yaml
+  - service-patch.yaml
+
+# Common labels for all resources in this overlay
+commonLabels:
+  environment: green
+  version: green

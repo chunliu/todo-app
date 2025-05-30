@@ -1,0 +1,27 @@
+# k8s/overlays/blue/deployment-patch.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todo-app # This name will be prefixed with 'blue-' by kustomization
+  # No namespace here, it's inherited from the base or kustomization.yaml in the overlay
+spec:
+  replicas: 1 # Example: Blue might have a different replica count
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: todo-app-instance # Ensure this matches the base
+      # Kustomize will add 'environment: blue' and 'version: blue' here
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/instance: todo-app-instance # Ensure this matches the base
+        # Kustomize will add 'environment: blue' and 'version: blue' here
+    spec:
+      containers:
+      - name: todo-app
+        # The image will be taken from the base or overridden by the root kustomization.yaml's images section
+        # If you need a specific image for blue, you can add an 'images' section to blue's kustomization.yaml
+        # or patch it here directly:
+        # image: your-dockerhub-username/todo-app:blue-tag
+        env:
+          - name: DEPLOYMENT_SLOT
+            value: "blue"

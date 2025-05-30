@@ -1,0 +1,63 @@
+# k8s/base/ingress.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: todo-app-ingress
+  namespace: todo-app
+  annotations:
+    kubernetes.io/ingress.class: "nginx" # Specifies Nginx Ingress controller
+    # nginx.ingress.kubernetes.io/rewrite-target: / # Uncomment if your app needs path rewriting
+    # cert-manager.io/cluster-issuer: 'letsencrypt-prod' # Uncomment if using cert-manager for TLS
+    # Annotations for Blue/Green or Canary with Nginx Ingress
+    # Initially, all traffic goes to the primary (e.g., blue) service.
+    # To enable canary (e.g., green), you would typically create a SEPARATE Ingress
+    # resource for the canary with 'nginx.ingress.kubernetes.io/canary: "true"'
+    # and then use 'nginx.ingress.kubernetes.io/canary-by-header', 
+    # 'nginx.ingress.kubernetes.io/canary-by-cookie', or 
+    # 'nginx.ingress.kubernetes.io/canary-weight' to route a portion of traffic.
+
+    # For a simpler Blue/Green switch, this main Ingress will point to one color (e.g. blue-todo-app-service)
+    # and you'd update it to point to green-todo-app-service to switch all traffic.
+    # However, to leverage Nginx's traffic splitting for a smoother transition:
+    # 1. This Ingress points to the STABLE service (e.g., blue-todo-app-service).
+    # 2. A second, canary Ingress (not managed here, but applied manually or by CI/CD)
+    #    would target the NEW service (e.g., green-todo-app-service) and use canary annotations.
+    #    Example canary Ingress snippet (apply separately):
+    #    apiVersion: networking.k8s.io/v1
+    #    kind: Ingress
+    #    metadata:
+    #      name: todo-app-ingress-canary
+    #      namespace: todo-app
+    #      annotations:
+    #        kubernetes.io/ingress.class: "nginx"
+    #        nginx.ingress.kubernetes.io/canary: "true"
+    #        nginx.ingress.kubernetes.io/canary-weight: "10" # Send 10% traffic to canary
+    #    spec:
+    #      rules:
+    #      - http:
+    #          paths:
+    #          - path: /
+    #            pathType: Prefix
+    #            backend:
+    #              service:
+    #                name: green-todo-app-service # Canary service
+    #                port:
+    #                  number: 80
+    # This base ingress will point to the blue service by default.
+    # The actual switch involves changing this backend service name or using a canary ingress.
+spec:
+  # tls: # Uncomment and configure if you have TLS certificates
+  # - hosts:
+  #   - todo.yourdomain.com
+  #   secretName: todo-app-tls-secret # Secret containing your TLS cert and key
+  rules:
+  # - host: todo.yourdomain.com # REPLACE with your desired hostname
+  - http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: blue-todo-app-service # Default to blue service
+            port:
+              number: 80 # Must match the Service port

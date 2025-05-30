@@ -1,0 +1,14 @@
+# k8s/overlays/blue/service-patch.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: todo-app # This name will be prefixed with 'blue-' by kustomization
+spec:
+  selector:
+    # These labels must match the labels on the Pods created by the 'blue-todo-app' Deployment.
+    # Kustomize adds commonLabels from the blue overlay's kustomization.yaml here.
+    # So, if base deployment has app.kubernetes.io/instance: todo-app-instance
+    # and blue overlay has commonLabels: {environment: blue, version: blue}
+    # the selector here should reflect that the pods will have these combined labels.
+    app.kubernetes.io/instance: todo-app-instance
+    environment: blue # This label is added by the blue overlay's kustomization.yaml

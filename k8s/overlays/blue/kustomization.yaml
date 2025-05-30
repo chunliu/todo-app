@@ -1,0 +1,19 @@
+# k8s/overlays/blue/kustomization.yaml
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+# Inherit from the base configuration
+resources:
+  - ../../base
+
+namePrefix: blue-
+
+# Patches for the blue deployment
+patchesStrategicMerge:
+  - deployment-patch.yaml
+  - service-patch.yaml
+
+# Common labels for all resources in this overlay
+commonLabels:
+  environment: blue
+  version: blue

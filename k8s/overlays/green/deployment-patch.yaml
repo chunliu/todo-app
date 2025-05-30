@@ -1,0 +1,26 @@
+# k8s/overlays/green/deployment-patch.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todo-app # This name will be prefixed with 'green-' by kustomization
+spec:
+  replicas: 1 # Example: Green might have a different replica count
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: todo-app-instance # Ensure this matches the base
+      # Kustomize will add 'environment: green' and 'version: green' here
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/instance: todo-app-instance # Ensure this matches the base
+        # Kustomize will add 'environment: green' and 'version: green' here
+    spec:
+      containers:
+      - name: todo-app
+        # The image will be taken from the base or overridden by the root kustomization.yaml's images section
+        # If you need a specific image for green, you can add an 'images' section to green's kustomization.yaml
+        # or patch it here directly:
+        # image: your-dockerhub-username/todo-app:green-tag
+        env:
+          - name: DEPLOYMENT_SLOT
+            value: "green"
