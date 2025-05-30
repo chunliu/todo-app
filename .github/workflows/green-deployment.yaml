@@ -1,4 +1,5 @@
-name: Build and Deploy
+name: Green Deployment
+description: Deploy the todo-app in the green environment
 
 on:
   push:
@@ -6,8 +7,9 @@ on:
       - 'v*'
   workflow_dispatch:
 env:
-  IMAGE_NAME: ${{ secrets.CR_URL }}/cl-test-ns/todo-app
+  IMAGE_NAME: ${{ secrets.CR_URL }}/cl-test-ns/green-todo-app
   IMAGE_TAG: ${{ github.ref_name }}
+  DEPLOY_ENV: green
   DB_HOST: ${{ secrets.DB_HOST }}
   DB_NAME: ${{ secrets.DB_NAME }}
   DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
@@ -41,7 +43,7 @@ jobs:
       run: |
         mkdir -p $HOME/.kube
         echo "${{ secrets.KUBE_CONFIG }}" | base64 --decode > $HOME/.kube/config
-    - name: Deploy Helm Chart
+    - name: Deploy to VKE
       run: |
         chmod +x ./deploy.sh
         ./deploy.sh

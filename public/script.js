@@ -1,5 +1,17 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const addTaskBtn = document.getElementById('addTaskBtn');
+    const addTaskBtn = document.getElementById('addTaskBtn'); // Moved original definition up
+    const pageTitle = document.querySelector('.container h1'); // Assuming this is the 'Todo List' title
+
+    // Apply styles based on DEPLOYMENT_SLOT
+    const deploymentSlot = window.DEPLOYMENT_SLOT;
+    if (deploymentSlot === 'green') {
+        if (pageTitle) pageTitle.style.color = 'green';
+        if (addTaskBtn) addTaskBtn.style.backgroundColor = 'green';
+    } else if (deploymentSlot === 'blue') {
+        if (pageTitle) pageTitle.style.color = 'blue';
+        if (addTaskBtn) addTaskBtn.style.backgroundColor = 'blue';
+    }
+
     const taskModal = document.getElementById('taskModal');
     const closeBtn = document.querySelector('.close-btn');
     const saveTaskBtn = document.getElementById('saveTaskBtn');

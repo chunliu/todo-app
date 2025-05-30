@@ -1,0 +1,49 @@
+name: Blue Deployment
+description: Deploy the todo-app in the blue environment
+
+on:
+  push:
+    tags: 
+      - 'v*'
+  workflow_dispatch:
+env:
+  IMAGE_NAME: ${{ secrets.CR_URL }}/cl-test-ns/blue-todo-app
+  IMAGE_TAG: ${{ github.ref_name }}
+  DEPLOY_ENV: blue
+  DB_HOST: ${{ secrets.DB_HOST }}
+  DB_NAME: ${{ secrets.DB_NAME }}
+  DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+  DB_USER: ${{ secrets.DB_USER }}
+  DB_PORT: ${{ secrets.DB_PORT }}
+
+jobs:
+  build-docker-image:
+    runs-on: self-hosted # use self-hosted runner
+    steps:
+    - uses: actions/checkout@v4
+    - name: Build the Docker image
+      run: docker build --tag $IMAGE_NAME:$IMAGE_TAG .
+    - name: Docker login
+      run: docker login --username=${{ secrets.CR_USERNAME }} --password=${{ secrets.CR_PASSWORD }} ${{ secrets.CR_URL }}
+    - name: Push the Docker image
+      run: docker push $IMAGE_NAME:$IMAGE_TAG
+
+  deploy-to-vke:
+    runs-on: self-hosted # use self-hosted runner
+    needs: build-docker-image
+    steps:
+    - uses: yokawasa/action-setup-kube-tools@v0.11.2
+      with:
+        setup-tools: |
+          kustomize
+          kubectl
+        kubectl: '1.32.5'
+        kustomize: 'v5.6.0'
+    - name: Setup ~/.kube/config
+      run: |
+        mkdir -p $HOME/.kube
+        echo "${{ secrets.KUBE_CONFIG }}" | base64 --decode > $HOME/.kube/config
+    - name: Deploy to VKE
+      run: |
+        chmod +x ./deploy.sh
+        ./deploy.sh

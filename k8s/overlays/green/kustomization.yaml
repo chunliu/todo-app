@@ -12,6 +12,7 @@ namePrefix: green-
 patchesStrategicMerge:
   - deployment-patch.yaml
   - service-patch.yaml
+  - ingress-canary-patch.yaml
 
 # Common labels for all resources in this overlay
 commonLabels:

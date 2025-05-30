@@ -16,7 +16,12 @@ kustomize edit set image "${ORIGINAL_IMAGE_NAME_IN_KUSTOMIZATION}=${IMAGE_NAME}:
 cd ../..
 
 echo "Applying Kustomize configurations..."
-kubectl apply -k k8s/
+
+if [ "DEPLOY_ENV" = "blue" ]
+    kubectl apply -k k8s/overlays/blue
+else
+    kubectl apply -k k8s/overlays/green
+fi
 
 # Optional: Clean up the generated .env files if they were temporary
 rm k8s/base/secrets.env
