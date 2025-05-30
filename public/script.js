@@ -5,10 +5,17 @@ document.addEventListener('DOMContentLoaded', () => {
     // Apply styles based on DEPLOYMENT_SLOT
     const deploymentSlot = window.DEPLOYMENT_SLOT;
     if (deploymentSlot === 'green') {
-        if (pageTitle) pageTitle.style.color = 'green';
+        if (pageTitle) 
+        {
+            pageTitle.style.color = 'green';
+            pageTitle.textContent = 'Todo App - Green';
+        }
         if (addTaskBtn) addTaskBtn.style.backgroundColor = 'green';
     } else if (deploymentSlot === 'blue') {
-        if (pageTitle) pageTitle.style.color = 'blue';
+        {
+            pageTitle.style.color = 'blue';
+            pageTitle.textContent = 'Todo App - Blue';
+        }
         if (addTaskBtn) addTaskBtn.style.backgroundColor = 'blue';
     }
 

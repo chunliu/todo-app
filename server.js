@@ -9,9 +9,6 @@ const port = process.env.PORT || 3000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Serve static files from the 'public' directory
-app.use(express.static(path.join(__dirname, 'public')));
-
 // Basic route for the homepage
 const fs = require('fs'); // Require fs for file reading
 
@@ -31,6 +28,9 @@ app.get('/', (req, res) => {
     res.send(modifiedHtml);
   });
 });
+
+// Serve static files from the 'public' directory
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Import API routes
 const apiRoutes = require('./api');
