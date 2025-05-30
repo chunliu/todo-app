@@ -17,7 +17,7 @@ cd ../..
 
 echo "Applying Kustomize configurations..."
 
-if [ "DEPLOY_ENV" = "blue" ]
+if [ "DEPLOY_ENV" = "blue" ]; then
     kubectl apply -k k8s/overlays/blue
 else
     kubectl apply -k k8s/overlays/green
